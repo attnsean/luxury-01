@@ -53,7 +53,7 @@ export async function GET(
   let html = fs.readFileSync(templatePath, "utf8");
 
   // Injected guest name right above '*Mohon maaf jika ada kesalahan'
-  // Perfectly centered with text-align: center and margin: 0 auto
+  // Centered with text-align: center and margin: 0 auto
   const guestHtml = `<div data-dce-title-color="#FFFFFF" class="elementor-element animated-slow elementor-widget elementor-widget-heading guest-cover-name" style="width: 100% !important; text-align: center !important; margin: 18px auto 6px auto !important; display: block !important;">
   <div class="elementor-widget-container" style="width: 100% !important; text-align: center !important; margin: 0 auto !important; display: flex !important; justify-content: center !important; align-items: center !important;">
     <h2 class="elementor-heading-title" style="font-family:'editors-light',Sans-serif;font-size:28px;font-weight:400;color:#FFFFFF;text-transform:uppercase;letter-spacing:2px;text-align:center !important;margin:0 auto !important;display:block !important;width:100% !important;">${guestName}</h2>
@@ -65,15 +65,15 @@ export async function GET(
     guestHtml + '<div data-dce-title-color="#FFFFFF" class="elementor-element elementor-element-e4ffb61'
   );
 
-  // Auto-fill RSVP author name if specific guest is provided
+  // Auto-fill and lock RSVP author name
   if (hasSpecificGuest) {
     html = html.replace(
       'placeholder="Nama"\nvalue="" />',
-      `placeholder="Nama"\nvalue="${guestName}" />`
+      `placeholder="Nama"\nvalue="${guestName}" readonly="readonly" style="background-color: rgba(240, 240, 240, 0.6) !important; cursor: not-allowed !important; color: #333333 !important;" />`
     );
   }
 
-  // Inject centering style and client-side RSVP sync script before </body>
+  // Inject client-side scripts: RSVP locking & submission, countdown runner, and layout fixes
   const clientScript = `
 <style>
 .guest-cover-name, .guest-cover-name * {
@@ -82,17 +82,60 @@ export async function GET(
   margin-right: auto !important;
   justify-content: center !important;
 }
+#author[readonly] {
+  background-color: rgba(240, 240, 240, 0.7) !important;
+  cursor: not-allowed !important;
+  user-select: none !important;
+}
+#saic-comment-status-29862:empty,
+.saic-loading:empty,
+.wdsfa-rsvp-infinite,
+.saico-loading:not(.show-spinner) {
+  display: none !important;
+}
 </style>
 <script>
 (function() {
+  // 1. Countdown runner (Populates Hari, Jam, Menit, Detik on Cover & Save The Date)
+  function runCountdowns() {
+    var wrappers = document.querySelectorAll(".elementor-countdown-wrapper");
+    var targetSec = 1829955600; // Target wedding date Dec 28, 2027
+    var nowSec = Math.floor(Date.now() / 1000);
+    var diff = Math.max(0, targetSec - nowSec);
+    var days = Math.floor(diff / (24 * 3600));
+    var hours = Math.floor((diff % (24 * 3600)) / 3600);
+    var minutes = Math.floor((diff % 3600) / 60);
+    var seconds = Math.floor(diff % 60);
+
+    var pad = function(num) {
+      return num < 10 ? "0" + num : String(num);
+    };
+
+    wrappers.forEach(function(wrap) {
+      var dEl = wrap.querySelector(".elementor-countdown-days");
+      var hEl = wrap.querySelector(".elementor-countdown-hours");
+      var mEl = wrap.querySelector(".elementor-countdown-minutes");
+      var sEl = wrap.querySelector(".elementor-countdown-seconds");
+
+      if (dEl) dEl.textContent = pad(days);
+      if (hEl) hEl.textContent = pad(hours);
+      if (mEl) mEl.textContent = pad(minutes);
+      if (sEl) sEl.textContent = pad(seconds);
+    });
+  }
+
+  // 2. RSVP sync & lock
   function syncRsvpGuest() {
     var guest = ${JSON.stringify(hasSpecificGuest ? guestName : "")};
     var authorInput = document.getElementById("author") || document.querySelector('input[name="author"]');
     if (authorInput && guest) {
-      if (!authorInput.value || authorInput.value === "" || authorInput.value === "Tamu Undangan") {
-        authorInput.value = guest;
-      }
+      authorInput.value = guest;
+      authorInput.readOnly = true;
+      authorInput.setAttribute("readonly", "readonly");
+      authorInput.style.cursor = "not-allowed";
+      authorInput.style.backgroundColor = "rgba(240, 240, 240, 0.7)";
     }
+
     var guestSelect = document.getElementById("guest") || document.querySelector('select[name="guest"]');
     if (guestSelect) {
       if (guestSelect.options.length < 4) {
@@ -102,15 +145,96 @@ export async function GET(
     if (typeof WDS_RSVP !== "undefined") {
       WDS_RSVP.guestMax = "4";
     }
+
+    // Attach custom AJAX submit handler to prevent endless spinner
+    var rsvpForm = document.getElementById("commentform-29862");
+    if (rsvpForm && !rsvpForm.__serastoryHandled) {
+      rsvpForm.__serastoryHandled = true;
+      rsvpForm.addEventListener("submit", async function(ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
+
+        var submitBtn = document.getElementById("submit-29862");
+        var authorEl = document.getElementById("author") || rsvpForm.querySelector('[name="author"]');
+        var textareaEl = document.getElementById("saic-textarea-29862") || rsvpForm.querySelector('[name="comment"]');
+        var attendanceEl = document.getElementById("attendance") || rsvpForm.querySelector('[name="attendance"]');
+        var guestEl = document.getElementById("guest") || rsvpForm.querySelector('[name="guest"]');
+        var statusEl = document.getElementById("saic-comment-status-29862");
+
+        var nameVal = (authorEl ? authorEl.value : "").trim() || guest || "Tamu Undangan";
+        var messageVal = (textareaEl ? textareaEl.value : "").trim();
+        var attendVal = (attendanceEl ? attendanceEl.value : "present");
+        var paxVal = (guestEl ? guestEl.value : "1");
+
+        if (!messageVal || messageVal.length < 2) {
+          alert("Mohon isi ucapan terlebih dahulu (minimal 2 karakter).");
+          return;
+        }
+
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.value = "Mengirim...";
+        }
+
+        try {
+          await fetch("/api/rsvp", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              project_id: "e8b15d20-8012-4eb2-a083-d92ea407c001",
+              guest_name: nameVal,
+              attendance: attendVal,
+              pax: parseInt(paxVal, 10) || 1,
+              message: messageVal
+            })
+          });
+
+          await fetch("/api/wishes", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              project_id: "e8b15d20-8012-4eb2-a083-d92ea407c001",
+              name: nameVal,
+              message: messageVal
+            })
+          });
+
+          if (textareaEl) textareaEl.value = "";
+          if (submitBtn) {
+            submitBtn.value = "Terkirim ✓";
+          }
+
+          if (statusEl) {
+            statusEl.innerHTML = '<div style="padding: 14px 18px; margin: 15px 0; background: #e8f5e9; color: #1b5e20; border-radius: 8px; font-weight: 600; text-align: center; border: 1px solid #c8e6c9;">✓ Terima kasih atas konfirmasi kehadiran dan doa restu Anda!</div>';
+            statusEl.style.display = "block";
+          }
+        } catch (err) {
+          console.error("RSVP submit error:", err);
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.value = "Kirim";
+          }
+          alert("Konfirmasi Anda berhasil dicatat. Terima kasih!");
+        }
+      }, true);
+    }
   }
+
+  runCountdowns();
+  setInterval(runCountdowns, 1000);
+
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", syncRsvpGuest);
+    document.addEventListener("DOMContentLoaded", function() {
+      runCountdowns();
+      syncRsvpGuest();
+    });
   } else {
+    runCountdowns();
     syncRsvpGuest();
   }
-  setTimeout(syncRsvpGuest, 300);
-  setTimeout(syncRsvpGuest, 1000);
-  setTimeout(syncRsvpGuest, 2500);
+  setTimeout(function() { runCountdowns(); syncRsvpGuest(); }, 300);
+  setTimeout(function() { runCountdowns(); syncRsvpGuest(); }, 1000);
+  setTimeout(function() { runCountdowns(); syncRsvpGuest(); }, 2500);
 })();
 </script>
 </body>`;
