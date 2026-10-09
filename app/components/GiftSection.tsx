@@ -50,11 +50,11 @@ export default function GiftSection() {
           </div>
           <div className="text-center">
             <p className="text-[11px] text-[#7A7A7A] uppercase font-light">No. Rekening</p>
-            <p className="font-editors text-xl text-[#2B2B2B] tracking-wider my-0.5">123123123</p>
-            <p className="text-xs text-[#5E5E5E] font-medium">a/n Putri Cantika Sari</p>
+            <p className="font-editors text-xl text-[#2B2B2B] tracking-wider my-0.5">1574988988</p>
+            <p className="text-xs text-[#5E5E5E] font-medium">a/n Marvel</p>
           </div>
           <button
-            onClick={() => copyToClipboard("123123123", "BCA")}
+            onClick={() => copyToClipboard("1574988988", "BCA")}
             className="mt-1 px-5 py-2 rounded-full bg-[#FAF8F5] border border-[#C2A676] text-[#2B2B2B] text-xs font-medium hover:bg-[#C2A676] hover:text-white transition-all cursor-pointer"
           >
             {copiedBank === "BCA" ? "✓ Tersalin!" : "Salin No. Rekening"}
@@ -80,7 +80,7 @@ export default function GiftSection() {
           <div className="text-center">
             <p className="text-[11px] text-[#7A7A7A] uppercase font-light">No. Rekening</p>
             <p className="font-editors text-xl text-[#2B2B2B] tracking-wider my-0.5">321321321</p>
-            <p className="text-xs text-[#5E5E5E] font-medium">a/n Putra Andika Pratama</p>
+            <p className="text-xs text-[#5E5E5E] font-medium">a/n Nathalie</p>
           </div>
           <button
             onClick={() => copyToClipboard("321321321", "BRI")}
@@ -99,12 +99,12 @@ export default function GiftSection() {
           className="bg-white/95 rounded-2xl p-5 shadow-sm border border-[#E8E2DA] flex flex-col items-center gap-2"
         >
           <span className="font-analogue italic text-base text-[#8E7D6B]">Kirim Kado Fisik</span>
-          <p className="text-xs font-medium text-[#2B2B2B]">Putri / Putra (+6285150000715)</p>
+          <p className="text-xs font-medium text-[#2B2B2B]">Marvel / Nathalie (+6285150000715)</p>
           <p className="text-xs text-[#5E5E5E] font-light leading-relaxed">
-            Jl. Raya Cilandak KKO No.27, Jakarta Selatan
+            Jl. Rancabentang No. 18, Ciumbuleuit, Kec. Cidadap, Kota Bandung 40142
           </p>
           <button
-            onClick={() => copyToClipboard("Jl. Raya Cilandak KKO No.27, Jakarta Selatan", "Alamat")}
+            onClick={() => copyToClipboard("Jl. Rancabentang No. 18, Ciumbuleuit, Kec. Cidadap, Kota Bandung 40142", "Alamat")}
             className="mt-2 px-5 py-2 rounded-full bg-[#FAF8F5] border border-[#C2A676] text-[#2B2B2B] text-xs font-medium hover:bg-[#C2A676] hover:text-white transition-all cursor-pointer"
           >
             {copiedBank === "Alamat" ? "✓ Tersalin!" : "Salin Alamat"}

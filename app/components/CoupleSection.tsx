@@ -26,17 +26,17 @@ interface CoupleSectionProps {
 
 export default function CoupleSection({
   bride = {
-    name: "Putri",
-    fullName: "Putri Cantika Sari",
-    order: "Putri Pertama dari",
+    name: "Nathalie",
+    fullName: "Nathalie Aurelia, S.E., M.B.A.",
+    order: "Nathalie Pertama dari",
     father: "Bapak Abdul Rozak",
     mother: "Ibu Adelia Marni",
     photoUrl: "/images/bride-photo.jpg",
     instagram: "putricantika",
   },
   groom = {
-    name: "Andika",
-    fullName: "Putra Andika Pratama",
+    name: "Marvel",
+    fullName: "Marvel Nathaniel, S.T., M.M.",
     order: "Putra Pertama dari",
     father: "Bapak Deni Bastian",
     mother: "Ibu Aisha Dania",
