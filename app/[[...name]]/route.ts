@@ -93,6 +93,73 @@ export async function GET(
 .saico-loading:not(.show-spinner) {
   display: none !important;
 }
+
+/* Background Slideshow System */
+.sera-bg-slideshow {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+}
+.sera-bg-slide {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  opacity: 0;
+  transform: scale(1.02);
+  transition: opacity 1.8s ease-in-out, transform 6.5s ease-out !important;
+  will-change: opacity, transform;
+}
+.sera-bg-slide.active {
+  opacity: 1 !important;
+  transform: scale(1.10) !important;
+}
+
+/* Section bb53199 (Closing - Terima Kasih) */
+.elementor-element-bb53199 {
+  position: relative !important;
+  overflow: hidden !important;
+}
+.elementor-element-bb53199 > .elementor-background-overlay {
+  opacity: 0.35 !important;
+  background-color: #000000 !important;
+  z-index: 1 !important;
+  position: absolute !important;
+  inset: 0 !important;
+}
+.elementor-element-bb53199 > .elementor-container {
+  position: relative !important;
+  z-index: 2 !important;
+}
+.elementor-element-61d70535 {
+  mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.85) 100%) !important;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.85) 100%) !important;
+  pointer-events: none !important;
+}
+
+/* Section 20bc11e (Save The Date) */
+.elementor-element-20bc11e {
+  position: relative !important;
+  overflow: hidden !important;
+}
+.elementor-element-20bc11e > .elementor-background-overlay {
+  opacity: 0.45 !important;
+  background-color: #000000 !important;
+  z-index: 1 !important;
+  position: absolute !important;
+  inset: 0 !important;
+}
+.elementor-element-20bc11e > .elementor-container {
+  position: relative !important;
+  z-index: 2 !important;
+}
 </style>
 <script>
 (function() {
@@ -219,22 +286,40 @@ export async function GET(
       }, true);
     }
   }
+  // 3. Background Slideshow runner
+  function runBackgroundSlideshows() {
+    var slideshows = document.querySelectorAll(".sera-bg-slideshow");
+    slideshows.forEach(function(wrap) {
+      if (wrap.__seraTimer) return;
+      var slides = wrap.querySelectorAll(".sera-bg-slide");
+      if (slides.length <= 1) return;
+      var idx = 0;
+      wrap.__seraTimer = setInterval(function() {
+        slides[idx].classList.remove("active");
+        idx = (idx + 1) % slides.length;
+        slides[idx].classList.add("active");
+      }, 4000);
+    });
+  }
 
   runCountdowns();
+  runBackgroundSlideshows();
   setInterval(runCountdowns, 1000);
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", function() {
       runCountdowns();
+      runBackgroundSlideshows();
       syncRsvpGuest();
     });
   } else {
     runCountdowns();
+    runBackgroundSlideshows();
     syncRsvpGuest();
   }
-  setTimeout(function() { runCountdowns(); syncRsvpGuest(); }, 300);
-  setTimeout(function() { runCountdowns(); syncRsvpGuest(); }, 1000);
-  setTimeout(function() { runCountdowns(); syncRsvpGuest(); }, 2500);
+  setTimeout(function() { runCountdowns(); runBackgroundSlideshows(); syncRsvpGuest(); }, 300);
+  setTimeout(function() { runCountdowns(); runBackgroundSlideshows(); syncRsvpGuest(); }, 1000);
+  setTimeout(function() { runCountdowns(); runBackgroundSlideshows(); syncRsvpGuest(); }, 2500);
 })();
 </script>
 </body>`;
