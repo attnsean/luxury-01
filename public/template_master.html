@@ -10,13 +10,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   background-size: cover !important;
   background-position: center 15% !important;
 }
+/* Ensure 52f6b538 (cover left column) is completely transparent so hero 848e89d underneath is visible */
+.elementor-element-52f6b538,
+.elementor-element-52f6b538 > .elementor-widget-wrap,
+.elementor-element-52f6b538 > .elementor-element-populated,
+.elementor-element-52f6b538 .elementor-background-overlay,
+.elementor-element-52f6b538 > .elementor-element-populated > .elementor-background-overlay {
+  background: transparent !important;
+  background-image: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+/* Hero left desktop column (contains couple photo, video leak, and title) */
 .elementor-element-848e89d,
 .elementor-element-848e89d .elementor-background-slideshow__slide__image,
 .elementor-element-848e89d > .elementor-widget-wrap,
 .elementor-element-848e89d > .elementor-element-populated,
-.elementor-element-52f6b538,
-.elementor-element-52f6b538 .elementor-background-slideshow__slide__image,
-.elementor-element-52f6b538 > .elementor-widget-wrap,
 #cover_desktop {
   background-image: url('/l01-assets/media/jet-form-builder/695b3bdcd89a6aa8982774659196c290/2025/01/0-PEMBUKA.jpg') !important;
   background-size: cover !important;
@@ -25,33 +34,25 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 }
 @media screen and (min-width: 1200px) {
   .elementor-element-848e89d,
-  .elementor-element-848e89d .elementor-background-slideshow__slide__image,
-  .elementor-element-52f6b538,
-  .elementor-element-52f6b538 .elementor-background-slideshow__slide__image {
+  .elementor-element-848e89d .elementor-background-slideshow__slide__image {
     background-position: center 18% !important;
   }
 }
 @media screen and (min-aspect-ratio: 16/9), screen and (min-width: 1600px) {
   .elementor-element-848e89d,
-  .elementor-element-848e89d .elementor-background-slideshow__slide__image,
-  .elementor-element-52f6b538,
-  .elementor-element-52f6b538 .elementor-background-slideshow__slide__image {
+  .elementor-element-848e89d .elementor-background-slideshow__slide__image {
     background-position: center 15% !important;
   }
 }
 @media screen and (min-aspect-ratio: 21/9), screen and (min-width: 2200px) {
   .elementor-element-848e89d,
-  .elementor-element-848e89d .elementor-background-slideshow__slide__image,
-  .elementor-element-52f6b538,
-  .elementor-element-52f6b538 .elementor-background-slideshow__slide__image {
+  .elementor-element-848e89d .elementor-background-slideshow__slide__image {
     background-position: center 12% !important;
   }
 }
 @media screen and (max-height: 800px) and (min-width: 1024px) {
   .elementor-element-848e89d,
-  .elementor-element-848e89d .elementor-background-slideshow__slide__image,
-  .elementor-element-52f6b538,
-  .elementor-element-52f6b538 .elementor-background-slideshow__slide__image {
+  .elementor-element-848e89d .elementor-background-slideshow__slide__image {
     background-position: center 15% !important;
   }
 }

@@ -95,14 +95,23 @@ export async function GET(
 }
 
 
-/* Left desktop section responsive background framing */
+/* Keep cover left column completely transparent so the hero desktop panel (848e89d) is fully visible */
+.elementor-element-52f6b538,
+.elementor-element-52f6b538 > .elementor-widget-wrap,
+.elementor-element-52f6b538 > .elementor-element-populated,
+.elementor-element-52f6b538 .elementor-background-overlay,
+.elementor-element-52f6b538 > .elementor-element-populated > .elementor-background-overlay {
+  background: transparent !important;
+  background-image: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Hero Left desktop section (contains couple photo + video leak + wedding typography) */
 .elementor-element-848e89d,
 .elementor-element-848e89d .elementor-background-slideshow__slide__image,
 .elementor-element-848e89d > .elementor-widget-wrap,
 .elementor-element-848e89d > .elementor-element-populated,
-.elementor-element-52f6b538,
-.elementor-element-52f6b538 .elementor-background-slideshow__slide__image,
-.elementor-element-52f6b538 > .elementor-widget-wrap,
 #cover_desktop {
   background-image: url('/l01-assets/media/jet-form-builder/695b3bdcd89a6aa8982774659196c290/2025/01/0-PEMBUKA.jpg') !important;
   background-position: center 20% !important;
@@ -112,36 +121,28 @@ export async function GET(
 
 @media screen and (min-width: 1200px) {
   .elementor-element-848e89d,
-  .elementor-element-848e89d .elementor-background-slideshow__slide__image,
-  .elementor-element-52f6b538,
-  .elementor-element-52f6b538 .elementor-background-slideshow__slide__image {
+  .elementor-element-848e89d .elementor-background-slideshow__slide__image {
     background-position: center 18% !important;
   }
 }
 
 @media screen and (min-aspect-ratio: 16/9), screen and (min-width: 1600px) {
   .elementor-element-848e89d,
-  .elementor-element-848e89d .elementor-background-slideshow__slide__image,
-  .elementor-element-52f6b538,
-  .elementor-element-52f6b538 .elementor-background-slideshow__slide__image {
+  .elementor-element-848e89d .elementor-background-slideshow__slide__image {
     background-position: center 15% !important;
   }
 }
 
 @media screen and (min-aspect-ratio: 21/9), screen and (min-width: 2200px) {
   .elementor-element-848e89d,
-  .elementor-element-848e89d .elementor-background-slideshow__slide__image,
-  .elementor-element-52f6b538,
-  .elementor-element-52f6b538 .elementor-background-slideshow__slide__image {
+  .elementor-element-848e89d .elementor-background-slideshow__slide__image {
     background-position: center 12% !important;
   }
 }
 
 @media screen and (max-height: 800px) and (min-width: 1024px) {
   .elementor-element-848e89d,
-  .elementor-element-848e89d .elementor-background-slideshow__slide__image,
-  .elementor-element-52f6b538,
-  .elementor-element-52f6b538 .elementor-background-slideshow__slide__image {
+  .elementor-element-848e89d .elementor-background-slideshow__slide__image {
     background-position: center 15% !important;
   }
 }
@@ -224,13 +225,23 @@ export async function GET(
     var isShort = window.innerHeight <= 800 && window.innerWidth >= 1024;
     var pos = isUltrawide ? "center 12%" : (isWide || isShort ? "center 15%" : (window.innerWidth >= 1200 ? "center 18%" : "center 20%"));
     
+    // Only target 848e89d, NOT 52f6b538!
     var leftEls = document.querySelectorAll(
-      ".elementor-element-848e89d, .elementor-element-52f6b538, .elementor-element-848e89d .elementor-background-slideshow__slide__image, .elementor-element-52f6b538 .elementor-background-slideshow__slide__image"
+      ".elementor-element-848e89d, .elementor-element-848e89d .elementor-background-slideshow__slide__image"
     );
     leftEls.forEach(function(el) {
       el.style.setProperty("background-position", pos, "important");
       el.style.setProperty("background-size", "cover", "important");
     });
+
+    // Ensure 52f6b538 is always completely transparent so 848e89d shows through
+    var coverLeft = document.querySelector(".elementor-element-52f6b538");
+    if (coverLeft) {
+      coverLeft.style.setProperty("background", "transparent", "important");
+      coverLeft.style.setProperty("background-image", "none", "important");
+      var overlay = coverLeft.querySelector(".elementor-background-overlay");
+      if (overlay) overlay.style.setProperty("display", "none", "important");
+    }
   }
   window.addEventListener("resize", applyLeftSectionFraming);
   applyLeftSectionFraming();
