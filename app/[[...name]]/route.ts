@@ -94,6 +94,58 @@ export async function GET(
   display: none !important;
 }
 
+
+/* Left desktop section responsive background framing */
+.elementor-element-848e89d,
+.elementor-element-848e89d .elementor-background-slideshow__slide__image,
+.elementor-element-848e89d > .elementor-widget-wrap,
+.elementor-element-848e89d > .elementor-element-populated,
+.elementor-element-52f6b538,
+.elementor-element-52f6b538 .elementor-background-slideshow__slide__image,
+.elementor-element-52f6b538 > .elementor-widget-wrap,
+#cover_desktop {
+  background-image: url('/l01-assets/media/jet-form-builder/695b3bdcd89a6aa8982774659196c290/2025/01/0-PEMBUKA.jpg') !important;
+  background-position: center 20% !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+}
+
+@media screen and (min-width: 1200px) {
+  .elementor-element-848e89d,
+  .elementor-element-848e89d .elementor-background-slideshow__slide__image,
+  .elementor-element-52f6b538,
+  .elementor-element-52f6b538 .elementor-background-slideshow__slide__image {
+    background-position: center 18% !important;
+  }
+}
+
+@media screen and (min-aspect-ratio: 16/9), screen and (min-width: 1600px) {
+  .elementor-element-848e89d,
+  .elementor-element-848e89d .elementor-background-slideshow__slide__image,
+  .elementor-element-52f6b538,
+  .elementor-element-52f6b538 .elementor-background-slideshow__slide__image {
+    background-position: center 15% !important;
+  }
+}
+
+@media screen and (min-aspect-ratio: 21/9), screen and (min-width: 2200px) {
+  .elementor-element-848e89d,
+  .elementor-element-848e89d .elementor-background-slideshow__slide__image,
+  .elementor-element-52f6b538,
+  .elementor-element-52f6b538 .elementor-background-slideshow__slide__image {
+    background-position: center 12% !important;
+  }
+}
+
+@media screen and (max-height: 800px) and (min-width: 1024px) {
+  .elementor-element-848e89d,
+  .elementor-element-848e89d .elementor-background-slideshow__slide__image,
+  .elementor-element-52f6b538,
+  .elementor-element-52f6b538 .elementor-background-slideshow__slide__image {
+    background-position: center 15% !important;
+  }
+}
+
 /* Background Slideshow System */
 .sera-bg-slideshow {
   position: absolute !important;
@@ -163,6 +215,29 @@ export async function GET(
 </style>
 <script>
 (function() {
+  
+  // Left section responsive framing runner
+  function applyLeftSectionFraming() {
+    var ratio = window.innerWidth / (window.innerHeight || 1);
+    var isUltrawide = window.innerWidth >= 2200 || ratio >= 2.2;
+    var isWide = window.innerWidth >= 1600 || ratio >= 1.7;
+    var isShort = window.innerHeight <= 800 && window.innerWidth >= 1024;
+    var pos = isUltrawide ? "center 12%" : (isWide || isShort ? "center 15%" : (window.innerWidth >= 1200 ? "center 18%" : "center 20%"));
+    
+    var leftEls = document.querySelectorAll(
+      ".elementor-element-848e89d, .elementor-element-52f6b538, .elementor-element-848e89d .elementor-background-slideshow__slide__image, .elementor-element-52f6b538 .elementor-background-slideshow__slide__image"
+    );
+    leftEls.forEach(function(el) {
+      el.style.setProperty("background-position", pos, "important");
+      el.style.setProperty("background-size", "cover", "important");
+    });
+  }
+  window.addEventListener("resize", applyLeftSectionFraming);
+  applyLeftSectionFraming();
+  setTimeout(applyLeftSectionFraming, 100);
+  setTimeout(applyLeftSectionFraming, 500);
+  setTimeout(applyLeftSectionFraming, 1500);
+
   // 1. Countdown runner (Populates Hari, Jam, Menit, Detik on Cover & Save The Date)
   function runCountdowns() {
     var wrappers = document.querySelectorAll(".elementor-countdown-wrapper");
