@@ -26,6 +26,38 @@ export default function RootLayout({
   return (
     <html lang="id">
       <body className="antialiased selection:bg-[#c2a676]/30">
+        {/* Suppress and remove Vercel Toolbar if injected */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var killToolbar = function() {
+                    var selectors = ['vercel-toolbar', 'v-toolbar', '#vercel-toolbar', 'vercel-live-feedback', 'iframe[src*="vercel.live"]', 'iframe[title*="Vercel Toolbar"]'];
+                    for (var i = 0; i < selectors.length; i++) {
+                      var els = document.querySelectorAll(selectors[i]);
+                      for (var j = 0; j < els.length; j++) {
+                        els[j].remove();
+                      }
+                    }
+                  };
+                  killToolbar();
+                  if (typeof MutationObserver !== 'undefined') {
+                    var observer = new MutationObserver(killToolbar);
+                    if (document.body) {
+                      observer.observe(document.body, { childList: true, subtree: true });
+                    } else {
+                      document.addEventListener('DOMContentLoaded', function() {
+                        if (document.body) observer.observe(document.body, { childList: true, subtree: true });
+                      });
+                    }
+                    setTimeout(function() { observer.disconnect(); }, 8000);
+                  }
+                } catch(e) {}
+              })();
+            `,
+          }}
+        />
         <div className="min-h-screen w-full flex justify-center items-center bg-[#1c1a19] sm:py-6">
           {/* Mobile frame container matching the.invisimple.id/l01 (max-width: 450px) */}
           <main className="w-full max-w-[450px] min-h-screen bg-[#FAF8F5] relative shadow-2xl overflow-x-hidden border-x border-[#33312f]/40 sm:rounded-2xl">
