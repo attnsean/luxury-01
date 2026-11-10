@@ -10,8 +10,8 @@ interface HeroSectionProps {
 }
 
 export default function HeroSection({
-  brideName = "Putri",
-  groomName = "Andika",
+  brideName = "Nabila",
+  groomName = "Rayhan",
   weddingDate = "28 . 12 . 2027",
 }: HeroSectionProps) {
   return (

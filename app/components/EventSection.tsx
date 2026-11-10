@@ -39,7 +39,7 @@ export default function EventSection({
   const mapsUrl = "https://maps.google.com/?q=Menara+165+Jakarta+Selatan";
 
   const saveToCalendar = (title: string, start: string, end: string) => {
-    const gCalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${start}/${end}&details=${encodeURIComponent("Pernikahan Putri & Andika")}&location=${encodeURIComponent("Menara 165 Jakarta Selatan")}`;
+    const gCalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${start}/${end}&details=${encodeURIComponent("Pernikahan Rayhan & Nabila")}&location=${encodeURIComponent("Menara 165 Jakarta Selatan")}`;
     window.open(gCalUrl, "_blank");
   };
 
@@ -135,7 +135,7 @@ export default function EventSection({
             Google Maps
           </a>
           <button
-            onClick={() => saveToCalendar("Akad Nikah Putri & Andika", "20271228T010000Z", "20271228T030000Z")}
+            onClick={() => saveToCalendar("Akad Nikah Rayhan & Nabila", "20271228T010000Z", "20271228T030000Z")}
             className="flex-1 py-2 px-3 rounded-full bg-[#2B2B2B] text-white text-xs font-medium hover:bg-[#444] transition-all text-center cursor-pointer"
           >
             Simpan Kalender
@@ -179,7 +179,7 @@ export default function EventSection({
             Google Maps
           </a>
           <button
-            onClick={() => saveToCalendar("Resepsi Pernikahan Putri & Andika", "20271228T040000Z", "20271228T060000Z")}
+            onClick={() => saveToCalendar("Resepsi Pernikahan Rayhan & Nabila", "20271228T040000Z", "20271228T060000Z")}
             className="flex-1 py-2 px-3 rounded-full bg-[#2B2B2B] text-white text-xs font-medium hover:bg-[#444] transition-all text-center cursor-pointer"
           >
             Simpan Kalender

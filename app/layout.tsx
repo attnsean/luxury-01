@@ -9,11 +9,11 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "The Wedding of Putri & Andika | Luxury 01",
-  description: "Undangan Pernikahan Online Putri Cantika Sari & Putra Andika Pratama",
+  title: "The Wedding of Rayhan & Nabila | Luxury 01",
+  description: "Undangan Pernikahan Online Rayhan Pratama, S.T., M.M. & Nabila Syakira, S.E., M.B.A.",
   openGraph: {
-    title: "The Wedding of Putri & Andika",
-    description: "Undangan Pernikahan Online Putri & Andika",
+    title: "The Wedding of Rayhan & Nabila",
+    description: "Undangan Pernikahan Online Rayhan Pratama & Nabila Syakira",
     images: [{ url: "/images/thumbnail.jpg", width: 1200, height: 630 }],
   },
 };

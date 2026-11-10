@@ -215,6 +215,47 @@ export async function GET(
 }
 </style>
 <script>
+window.copyGiftText = function(text, btnElement, successText) {
+  function showCopied() {
+    if (!btnElement) return;
+    var origHtml = btnElement.getAttribute("data-orig-html");
+    if (!origHtml) {
+      origHtml = btnElement.innerHTML;
+      btnElement.setAttribute("data-orig-html", origHtml);
+    }
+    btnElement.innerHTML = '<svg style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.5;display:inline-block;vertical-align:middle;margin-right:4px;" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg><span>' + (successText || 'Tersalin!') + '</span>';
+    btnElement.classList.add('copied');
+    setTimeout(function() {
+      btnElement.innerHTML = origHtml;
+      btnElement.classList.remove('copied');
+    }, 2500);
+  }
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(showCopied).catch(function() {
+      fallbackCopy(text);
+    });
+  } else {
+    fallbackCopy(text);
+  }
+
+  function fallbackCopy(val) {
+    var ta = document.createElement("textarea");
+    ta.value = val;
+    ta.style.position = "fixed";
+    ta.style.left = "-9999px";
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try {
+      document.execCommand("copy");
+      showCopied();
+    } catch (e) {
+      prompt("Salin teks berikut:", val);
+    }
+    document.body.removeChild(ta);
+  }
+};
 (function() {
   
   // Left section responsive framing runner

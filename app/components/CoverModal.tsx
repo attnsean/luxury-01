@@ -12,8 +12,8 @@ interface CoverModalProps {
 
 export default function CoverModal({
   guestName,
-  brideName = "Putri",
-  groomName = "Andika",
+  brideName = "Nabila",
+  groomName = "Rayhan",
   onOpen,
 }: CoverModalProps) {
   const [isOpen, setIsOpen] = useState(false);

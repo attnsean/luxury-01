@@ -9,8 +9,8 @@ interface FooterSectionProps {
 }
 
 export default function FooterSection({
-  brideName = "Putri",
-  groomName = "Andika",
+  brideName = "Nabila",
+  groomName = "Rayhan",
 }: FooterSectionProps) {
   return (
     <footer className="relative w-full py-16 px-6 bg-[#FAF8F5] text-center flex flex-col items-center gap-8 overflow-hidden">

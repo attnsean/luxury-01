@@ -16,7 +16,7 @@ export default function WishesSection() {
       id: "1",
       name: "Rian & Dita",
       attendance: "Hadir",
-      message: "Selamat Putri dan Andika! Semoga langgeng dan bahagia selamanya yaa.",
+      message: "Selamat Rayhan dan Nabila! Semoga langgeng dan bahagia selamanya yaa.",
       createdAt: "Baru saja",
     },
     {

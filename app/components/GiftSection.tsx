@@ -50,11 +50,11 @@ export default function GiftSection() {
           </div>
           <div className="text-center">
             <p className="text-[11px] text-[#7A7A7A] uppercase font-light">No. Rekening</p>
-            <p className="font-editors text-xl text-[#2B2B2B] tracking-wider my-0.5">1574988988</p>
-            <p className="text-xs text-[#5E5E5E] font-medium">a/n Marvel</p>
+            <p className="font-editors text-xl text-[#2B2B2B] tracking-wider my-0.5">1234 5678 90</p>
+            <p className="text-xs text-[#5E5E5E] font-medium">a/n Rayhan Pratama</p>
           </div>
           <button
-            onClick={() => copyToClipboard("1574988988", "BCA")}
+            onClick={() => copyToClipboard("1234567890", "BCA")}
             className="mt-1 px-5 py-2 rounded-full bg-[#FAF8F5] border border-[#C2A676] text-[#2B2B2B] text-xs font-medium hover:bg-[#C2A676] hover:text-white transition-all cursor-pointer"
           >
             {copiedBank === "BCA" ? "✓ Tersalin!" : "Salin No. Rekening"}
@@ -79,11 +79,11 @@ export default function GiftSection() {
           </div>
           <div className="text-center">
             <p className="text-[11px] text-[#7A7A7A] uppercase font-light">No. Rekening</p>
-            <p className="font-editors text-xl text-[#2B2B2B] tracking-wider my-0.5">321321321</p>
-            <p className="text-xs text-[#5E5E5E] font-medium">a/n Nathalie</p>
+            <p className="font-editors text-xl text-[#2B2B2B] tracking-wider my-0.5">9876 5432 10</p>
+            <p className="text-xs text-[#5E5E5E] font-medium">a/n Nabila Syakira</p>
           </div>
           <button
-            onClick={() => copyToClipboard("321321321", "BRI")}
+            onClick={() => copyToClipboard("9876543210", "BRI")}
             className="mt-1 px-5 py-2 rounded-full bg-[#FAF8F5] border border-[#C2A676] text-[#2B2B2B] text-xs font-medium hover:bg-[#C2A676] hover:text-white transition-all cursor-pointer"
           >
             {copiedBank === "BRI" ? "✓ Tersalin!" : "Salin No. Rekening"}
@@ -99,7 +99,7 @@ export default function GiftSection() {
           className="bg-white/95 rounded-2xl p-5 shadow-sm border border-[#E8E2DA] flex flex-col items-center gap-2"
         >
           <span className="font-analogue italic text-base text-[#8E7D6B]">Kirim Kado Fisik</span>
-          <p className="text-xs font-medium text-[#2B2B2B]">Marvel / Nathalie (+6285150000715)</p>
+          <p className="text-xs font-medium text-[#2B2B2B]">Rayhan Pratama / Nabila Syakira (+62 812-3456-7890)</p>
           <p className="text-xs text-[#5E5E5E] font-light leading-relaxed">
             Jl. Rancabentang No. 18, Ciumbuleuit, Kec. Cidadap, Kota Bandung 40142
           </p>

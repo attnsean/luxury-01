@@ -27,10 +27,10 @@ interface MainInvitationProps {
 
 export default function MainInvitation({
   guestName,
-  brideName = "Putri",
-  groomName = "Andika",
-  brideFullName = "Nathalie Aurelia, S.E., M.B.A.",
-  groomFullName = "Marvel Nathaniel, S.T., M.M.",
+  brideName = "Nabila",
+  groomName = "Rayhan",
+  brideFullName = "Nabila Syakira, S.E., M.B.A.",
+  groomFullName = "Rayhan Pratama, S.T., M.M.",
   weddingDate = "28 . 12 . 2027",
   musicUrl = "/audio/song.mp3",
 }: MainInvitationProps) {

@@ -26,22 +26,22 @@ interface CoupleSectionProps {
 
 export default function CoupleSection({
   bride = {
-    name: "Nathalie",
-    fullName: "Nathalie Aurelia, S.E., M.B.A.",
-    order: "Nathalie Pertama dari",
-    father: "Bapak Abdul Rozak",
-    mother: "Ibu Adelia Marni",
+    name: "Nabila",
+    fullName: "Nabila Syakira, S.E., M.B.A.",
+    order: "Putri Pertama dari",
+    father: "Bapak Hendra Gunawan",
+    mother: "Ibu Hj. Nurhayati",
     photoUrl: "/images/bride-photo.jpg",
-    instagram: "putricantika",
+    instagram: "nabilasyakira",
   },
   groom = {
-    name: "Marvel",
-    fullName: "Marvel Nathaniel, S.T., M.M.",
+    name: "Rayhan",
+    fullName: "Rayhan Pratama, S.T., M.M.",
     order: "Putra Pertama dari",
-    father: "Bapak Deni Bastian",
-    mother: "Ibu Aisha Dania",
+    father: "Bapak Ir. Bambang Pratama, M.Sc.",
+    mother: "Ibu Dra. Hj. Ratna Sari",
     photoUrl: "/images/groom-photo.jpg",
-    instagram: "andikapratama",
+    instagram: "rayhanpratama",
   },
 }: CoupleSectionProps) {
   return (
