@@ -96,6 +96,7 @@ export interface DbProject {
   hashtag?: string | null;
   countdown_target?: string | null;
   has_dresscode?: boolean | null;
+  has_cashless?: boolean | null;
   dresscode_colors?: unknown;
   wizard_step: number;
   wizard_completed: boolean;
@@ -188,6 +189,9 @@ export async function resolveProjectData(slug?: string, host?: string, guestName
       projectId = '';
     }
 
+    const cleanHost = host ? host.split(':')[0].toLowerCase() : '';
+    const isLocalhost = cleanHost === 'localhost' || cleanHost === '127.0.0.1';
+
     // 1. Resolve guest by slug if provided
     if (slug) {
       const { data: guestData, error: guestError } = await supabase
@@ -202,13 +206,13 @@ export async function resolveProjectData(slug?: string, host?: string, guestName
       }
     }
 
-    // 2. If no guest slug matched, try to resolve by host
-    if (!projectId && host) {
-      // Find project where site_url or custom_domain contains host
+    // 2. Resolve by host if not localhost
+    if (cleanHost && !isLocalhost) {
+      const subdomain = cleanHost.replace('.serastory.com', '').replace('.vercel.app', '');
       const { data: matchedProjects } = await supabase
         .from('projects')
         .select('id')
-        .or(`site_url.ilike.%${host}%,custom_domain.ilike.%${host}%`)
+        .or(`site_url.ilike.%${cleanHost}%,custom_domain.ilike.%${cleanHost}%,project_name.eq.${subdomain}`)
         .limit(1);
 
       if (matchedProjects && matchedProjects.length > 0) {
