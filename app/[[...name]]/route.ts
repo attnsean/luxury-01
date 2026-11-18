@@ -471,6 +471,54 @@ export async function GET(
         "<style>.elementor-element-6e59bcc, #btn_gift, #sec_gift { display: none !important; }</style></head>"
       );
     }
+
+    // 13. Live Streaming section
+    const liveStreamUrl = (project.live_stream_url || "").trim();
+    if (!liveStreamUrl) {
+      html = html.replace(
+        "</head>",
+        "<style>.elementor-element-cc4493f { display: none !important; }</style></head>"
+      );
+    } else {
+      const liveStreamBtnText = (project.live_stream_label || "").trim() || "Lihat Live Streaming";
+      html = html.replace(
+        /<div class="elementor-element elementor-element-e0c2b2a[^>]*>[\s\S]*?<a class="elementor-button[^>]*>([\s\S]*?)<\/a>/,
+        `<div class="elementor-element elementor-element-e0c2b2a elementor-align-center elementor-widget__width-auto inv-atas elementor-widget elementor-widget-button" data-id="e0c2b2a" data-element_type="widget" data-e-type="widget" data-widget_type="button.default"><div class="elementor-widget-container"><div class="elementor-button-wrapper"><a href="${liveStreamUrl}" target="_blank" rel="noopener noreferrer" class="elementor-button elementor-size-sm elementor-animation-shrink" role="button"><span class="elementor-button-content-wrapper"><span class="elementor-button-icon"><i aria-hidden="true" class="fas fa-video"></i></span><span class="elementor-button-text">${liveStreamBtnText}</span></span></a>`
+      );
+    }
+
+    // 14. Dresscode section
+    const hasDresscode = typeof project.has_dresscode === "boolean" ? project.has_dresscode : true;
+    if (!hasDresscode) {
+      html = html.replace(
+        "</head>",
+        "<style>.elementor-element-79a733b, .elementor-element-8fbe745 { display: none !important; }</style></head>"
+      );
+    } else {
+      const dressColors = Array.isArray(project.dresscode_colors) ? project.dresscode_colors : [];
+      if (dressColors.length > 0) {
+        const colorBoxes = dressColors.map(c => `
+          <div style="display:inline-flex;flex-direction:column;align-items:center;margin:6px 10px;">
+            <div style="background-color:${c.hex};width:38px;height:38px;border-radius:50%;border:2px solid rgba(255,255,255,0.4);box-shadow:0 2px 8px rgba(0,0,0,0.3);" title="${c.name || c.hex}"></div>
+            ${c.name ? `<span style="font-size:10px;color:#fff;margin-top:6px;font-weight:600;letter-spacing:1px;text-transform:uppercase;">${c.name}</span>` : ''}
+          </div>
+        `).join('');
+        
+        html = html.replace(
+          /<div class="elementor-element elementor-element-06fd409[\s\S]*?<\/div><\/div><\/div><\/div><\/div><\/div><\/div><\/section>/,
+          `<div style="display:flex;justify-content:center;align-items:center;flex-wrap:wrap;padding:12px 0;">${colorBoxes}</div></div></div></div></section>`
+        );
+      }
+    }
+
+    // 15. Love Story section
+    const loveStoryItems = Array.isArray(project.love_story_items) ? project.love_story_items : [];
+    if (loveStoryItems.length === 0 && !project.love_story) {
+      html = html.replace(
+        "</head>",
+        "<style>.elementor-element-318b31ac { display: none !important; }</style></head>"
+      );
+    }
   }
 
   // Inject client-side scripts: RSVP locking & submission, countdown runner, and layout fixes
