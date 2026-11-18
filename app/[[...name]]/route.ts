@@ -449,6 +449,13 @@ export async function GET(
     );
 
     // 12. Cashless / Wedding Gift section
+    html = html.replace(/>Rayhan Pratama<\/div>/g, `>${groomFullName}</div>`);
+    html = html.replace(/>Nabila Syakira<\/div>/g, `>${brideFullName}</div>`);
+    html = html.replace(
+      />Rayhan Pratama \/ Nabila Syakira<\/div>/g,
+      `>${coupleFullTitle}</div>`
+    );
+
     const hasCashless = !!project.has_cashless;
     const paymentAccounts = (Array.isArray(project.payment_accounts)
       ? project.payment_accounts
@@ -462,13 +469,6 @@ export async function GET(
       html = html.replace(
         "</head>",
         "<style>.elementor-element-6e59bcc, #btn_gift, #sec_gift { display: none !important; }</style></head>"
-      );
-    } else {
-      html = html.replace(/>Rayhan Pratama<\/div>/g, `>${groomFullName}</div>`);
-      html = html.replace(/>Nabila Syakira<\/div>/g, `>${brideFullName}</div>`);
-      html = html.replace(
-        />Rayhan Pratama \/ Nabila Syakira<\/div>/g,
-        `>${coupleFullTitle}</div>`
       );
     }
   }
