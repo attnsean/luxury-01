@@ -431,9 +431,14 @@ export async function GET(
 
     // 10. Music
     if (project.music_url) {
+      const musicUrl = project.music_url.trim();
       html = html.replace(
         /\/l01-assets\/media\/2024\/06\/McBride-My-Valentine-Martina\.mp3/g,
-        project.music_url
+        musicUrl
+      );
+      html = html.replace(
+        /<audio id="song" loop>[\s\S]*?<\/audio>/,
+        `<audio id="song" src="${musicUrl}" loop preload="auto"><source src="${musicUrl}" type="audio/mpeg"><source src="${musicUrl}" type="audio/mp3"></audio>`
       );
     }
 
@@ -517,6 +522,27 @@ export async function GET(
       html = html.replace(
         "</head>",
         "<style>.elementor-element-318b31ac { display: none !important; }</style></head>"
+      );
+    }
+
+    // 16. Video Teaser / Video gallery section
+    const hasVideo = Array.isArray(project.video_urls) && project.video_urls.length > 0;
+    if (!hasVideo && !project.wishlist_url?.includes("youtube")) {
+      html = html.replace(
+        /<section[^>]*class="[^"]*elementor-element-f7af679[^"]*"[\s\S]*?<\/section>/,
+        ""
+      );
+      html = html.replace(
+        /var sourceUrl\s*=\s*"[^"]*";/,
+        'var sourceUrl = "";'
+      );
+      html = html.replace(
+        /var autoPlay\s*=\s*1;/,
+        'var autoPlay = 0;'
+      );
+      html = html.replace(
+        "</head>",
+        "<style>.elementor-element-f7af679 { display: none !important; }</style></head>"
       );
     }
   }
@@ -876,6 +902,31 @@ window.copyGiftText = function(text, btnElement, successText) {
         slides[idx].classList.add("active");
       }, 4000);
     });
+  }
+
+  // 4. Force audio sync & ensure correct track plays
+  var expectedMusicUrl = "${(project?.music_url || '').replace(/"/g, '\\"')}";
+  if (expectedMusicUrl) {
+    function ensureCorrectSong() {
+      var songEl = document.getElementById("song");
+      if (songEl) {
+        if (!songEl.src || !songEl.src.includes(expectedMusicUrl)) {
+          songEl.src = expectedMusicUrl;
+          songEl.load();
+        }
+      }
+    }
+    ensureCorrectSong();
+    var openBtn = document.getElementById("btn_open");
+    if (openBtn) {
+      openBtn.addEventListener("click", function() {
+        ensureCorrectSong();
+        var songEl = document.getElementById("song");
+        if (songEl && songEl.paused) {
+          songEl.play().catch(function() {});
+        }
+      }, true);
+    }
   }
 
   runCountdowns();
