@@ -462,15 +462,22 @@ export async function GET(
     );
 
     const hasCashless = !!project.has_cashless;
-    const paymentAccounts = (Array.isArray(project.payment_accounts)
+    const paymentAccounts = ((Array.isArray(project.payment_accounts)
       ? project.payment_accounts
       : []) as {
       bank_name?: string;
       account_number?: string;
       account_name?: string;
-    }[];
+    }[]).filter(
+      (acc) =>
+        acc &&
+        acc.account_number &&
+        String(acc.account_number).trim() !== "" &&
+        String(acc.account_number).trim() !== "1234567890" &&
+        String(acc.account_number).trim() !== "9876543210"
+    );
 
-    if (!hasCashless && paymentAccounts.length === 0) {
+    if (!hasCashless || paymentAccounts.length === 0) {
       html = html.replace(
         "</head>",
         "<style>.elementor-element-6e59bcc, #btn_gift, #sec_gift { display: none !important; }</style></head>"
